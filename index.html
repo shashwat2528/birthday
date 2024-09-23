@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Akanksha</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f7fa;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            z-index: 2;
+        }
+        h1 {
+            color: #ff69b4;
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #333;
+            font-size: 1.5rem;
+        }
+        .image-container {
+            margin-top: 20px;
+        }
+        img {
+            width: 300px;
+            height: auto;
+            border-radius: 20px;
+            border: 5px solid #ff69b4;
+        }
+
+        /* Video float animation */
+        .floating-video {
+            position: absolute;
+            width: 150px;
+            height: auto;
+            border-radius: 10px;
+            animation: float 10s ease-in-out infinite, randomMove 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        /* Randomly move video */
+        @keyframes randomMove {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, 100px); }
+            50% { transform: translate(-100px, 150px); }
+            75% { transform: translate(100px, -50px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Balloons */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 60px;
+            height: 80px;
+            background-color: #ff69b4;
+            border-radius: 50% 50% 0 0;
+            animation: float 6s ease-in-out infinite, burst 8s ease-in-out infinite;
+        }
+        .balloon::before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 2px;
+            height: 10px;
+            background: #ff69b4;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Balloons burst */
+        @keyframes burst {
+            0%, 90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Fireworks/crackers */
+        #cracker {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            overflow: hidden;
+        }
+        .explosion {
+            width: 30px;
+            height: 30px;
+            background-color: yellow;
+            position: absolute;
+            border-radius: 50%;
+            animation: explode 0.8s linear;
+        }
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(3); opacity: 0.8; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+        .explosion:nth-child(odd) {
+            background-color: red;
+        }
+        .explosion:nth-child(even) {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday Akanksha</h1>
+        <p>I LOVE YOU THE MOST!</p>
+        <div class="image-container">
+            <img src="us.jpg" alt="Akanksha and Me">
+        </div>
+    </div>
+
+    <!-- Balloons -->
+    <div class="balloon" style="left: 10%; background-color: #ff4500;"></div>
+    <div class="balloon" style="left: 50%; background-color: #00bfff;"></div>
+    <div class="balloon" style="left: 80%; background-color: #32cd32;"></div>
+
+    <!-- Cracker Explosion -->
+    <div id="cracker"></div>
+
+    <!-- Floating videos -->
+    <script>
+        // Create floating video elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoCount = 30;
+            for (let i = 0; i < videoCount; i++) {
+                createFloatingVideo();
+            }
+
+            function createFloatingVideo() {
+                const video = document.createElement('video');
+                video.src = '/mnt/data/Happy Birthday.mp4';  // Ensure this path points to the correct location of the video
+                video.className = 'floating-video';
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+
+                // Set random position for each video
+                video.style.left = Math.random() * window.innerWidth + 'px';
+                video.style.top = Math.random() * window.innerHeight + 'px';
+
+                // Append the video to the body
+                document.body.appendChild(video);
+            }
+
+            // Cracker explosion
+            setInterval(createExplosion, 1500);
+
+            function createExplosion() {
+                const cracker = document.getElementById('cracker');
+                const explosion = document.createElement('div');
+                explosion.className = 'explosion';
+
+                // Random positions on the screen
+                explosion.style.left = Math.random() * window.innerWidth + 'px';
+                explosion.style.top = Math.random() * window.innerHeight + 'px';
+
+                // Add the explosion to the cracker div
+                cracker.appendChild(explosion);
+
+                // Remove the explosion after the animation
+                setTimeout(() => {
+                    cracker.removeChild(explosion);
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
