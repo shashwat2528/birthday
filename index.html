@@ -78,7 +78,6 @@
         </div>
     </div>
 
-    <!-- Floating videos -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const videoCount = 30;
@@ -94,27 +93,45 @@
                 video.loop = true;
                 video.muted = true;
 
-                video.style.left = Math.random() * window.innerWidth + 'px';
-                video.style.top = Math.random() * window.innerHeight + 'px';
-
+                setRandomPosition(video);
                 document.body.appendChild(video);
             }
 
             // Create floating images
             const imageCount = 8;
+            const imagePositions = new Set();
             for (let i = 1; i <= imageCount; i++) {
-                createFloatingImage(i + '.jpg');
+                createFloatingImage(i + '.jpg', imagePositions);
             }
 
-            function createFloatingImage(src) {
+            function createFloatingImage(src, positions) {
                 const img = document.createElement('img');
                 img.src = src; // Ensure the path is correct
                 img.className = 'floating-image';
 
-                img.style.left = Math.random() * window.innerWidth + 'px';
-                img.style.top = Math.random() * window.innerHeight + 'px';
+                let position;
+                do {
+                    position = {
+                        left: Math.random() * (window.innerWidth - 100) + 'px', // Account for image width
+                        top: Math.random() * (window.innerHeight - 100) + 'px' // Account for image height
+                    };
+                } while (isOverlapping(position, positions, 100)); // 100 is the image width/height
+
+                img.style.left = position.left;
+                img.style.top = position.top;
+                positions.add(JSON.stringify(position)); // Store position
 
                 document.body.appendChild(img);
+            }
+
+            function isOverlapping(newPos, existingPositions, size) {
+                for (let pos of existingPositions) {
+                    const oldPos = JSON.parse(pos);
+                    const isOverlapping = Math.abs(parseFloat(newPos.left) - parseFloat(oldPos.left)) < size &&
+                                          Math.abs(parseFloat(newPos.top) - parseFloat(oldPos.top)) < size;
+                    if (isOverlapping) return true;
+                }
+                return false;
             }
 
             // Floating quotes
@@ -130,12 +147,13 @@
             ];
 
             const colors = ['#ff69b4', '#00bfff', '#32cd32', '#ff4500', '#ffa500'];
+            const quotePositions = new Set();
 
             quotes.forEach((quote) => {
-                createFloatingQuote(quote);
+                createFloatingQuote(quote, quotePositions);
             });
 
-            function createFloatingQuote(quote) {
+            function createFloatingQuote(quote, positions) {
                 const floatingQuote = document.createElement('div');
                 floatingQuote.className = 'floating-quote';
                 floatingQuote.innerText = quote;
@@ -143,8 +161,17 @@
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 floatingQuote.style.color = randomColor;
 
-                floatingQuote.style.left = Math.random() * window.innerWidth + 'px';
-                floatingQuote.style.top = Math.random() * window.innerHeight + 'px';
+                let position;
+                do {
+                    position = {
+                        left: Math.random() * (window.innerWidth - 200) + 'px', // Account for quote width
+                        top: Math.random() * (window.innerHeight - 50) + 'px' // Account for quote height
+                    };
+                } while (isOverlapping(position, positions, 100)); // 100 is an approximate size
+
+                floatingQuote.style.left = position.left;
+                floatingQuote.style.top = position.top;
+                positions.add(JSON.stringify(position)); // Store position
 
                 document.body.appendChild(floatingQuote);
             }
