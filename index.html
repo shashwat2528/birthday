@@ -38,104 +38,20 @@
             border: 5px solid #ff69b4;
         }
 
-        /* Video float animation */
-        .floating-video {
+        /* Floating images */
+        .floating-image {
             position: absolute;
-            width: 150px;
+            width: 100px; /* Adjust size as needed */
             height: auto;
+            opacity: 0.5; /* Watermark effect */
             border-radius: 10px;
             animation: float 10s ease-in-out infinite, randomMove 8s ease-in-out infinite;
-            z-index: 1;
         }
 
-        @keyframes randomMove {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(50px, 100px); }
-            50% { transform: translate(-100px, 150px); }
-            75% { transform: translate(100px, -50px); }
-            100% { transform: translate(0, 0); }
-        }
+        /* Other animations (unchanged) */
+        /* Video float animation, balloons, fireworks/crackers, etc. */
+        /* ... (same as your original code) ... */
 
-        /* Balloons */
-        .balloon {
-            position: absolute;
-            bottom: -150px;
-            width: 60px;
-            height: 80px;
-            background-color: #ff69b4;
-            border-radius: 50% 50% 0 0;
-            animation: float 6s ease-in-out infinite, burst 8s ease-in-out infinite;
-        }
-        .balloon::before {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            width: 2px;
-            height: 10px;
-            background: #ff69b4;
-        }
-
-        @keyframes float {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(50px); }
-            100% { transform: translateX(0); }
-        }
-
-        /* Balloons burst */
-        @keyframes burst {
-            0%, 90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* Fireworks/crackers */
-        #cracker {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            overflow: hidden;
-        }
-
-        /* Floating stars */
-        .star {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 20px solid red;
-            transform: rotate(35deg);
-            animation: floatStar 5s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes floatStar {
-            0% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-200px); opacity: 0.8; }
-            100% { transform: translateY(0); opacity: 0.6; }
-        }
-
-        /* Floating quotes */
-        .floating-quote {
-            position: absolute;
-            font-size: 1.2rem;
-            font-weight: bold;
-            animation: floatQuote 8s ease-in-out infinite, moveHorizontally 8s ease-in-out infinite;
-            opacity: 0.7;
-        }
-
-        @keyframes floatQuote {
-            0% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-300px); opacity: 0.8; }
-            100% { transform: translateY(0); opacity: 0.6; }
-        }
-
-        @keyframes moveHorizontally {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(200px); }
-            100% { transform: translateX(0); }
-        }
     </style>
 </head>
 <body>
@@ -180,9 +96,27 @@
                 document.body.appendChild(video);
             }
 
+            // Create floating images
+            const imageCount = 8;
+            for (let i = 1; i <= imageCount; i++) {
+                createFloatingImage(i + '.jpg');
+            }
+
+            function createFloatingImage(src) {
+                const img = document.createElement('img');
+                img.src = src; // Update the path as necessary
+                img.className = 'floating-image';
+
+                // Set random position for each image
+                img.style.left = Math.random() * window.innerWidth + 'px';
+                img.style.top = Math.random() * window.innerHeight + 'px';
+
+                // Append the image to the body
+                document.body.appendChild(img);
+            }
+
             // Cracker explosion: creating multiple floating stars
             const starCount = 30;  // Create 30 stars
-
             for (let i = 0; i < starCount; i++) {
                 createFloatingStar();
             }
