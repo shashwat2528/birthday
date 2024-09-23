@@ -48,7 +48,6 @@
             z-index: 1;
         }
 
-        /* Randomly move video */
         @keyframes randomMove {
             0% { transform: translate(0, 0); }
             25% { transform: translate(50px, 100px); }
@@ -111,28 +110,6 @@
             z-index: 1;
         }
 
-        .star::before, .star::after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 20px solid red;
-        }
-
-        .star::before {
-            transform: rotate(-70deg);
-            top: -15px;
-            left: -10px;
-        }
-
-        .star::after {
-            transform: rotate(-140deg);
-            top: 0;
-            left: -10px;
-        }
-
         @keyframes floatStar {
             0% { transform: translateY(0); opacity: 1; }
             50% { transform: translateY(-200px); opacity: 0.8; }
@@ -143,9 +120,8 @@
         .floating-quote {
             position: absolute;
             font-size: 1.2rem;
-            color: #ff69b4;
             font-weight: bold;
-            animation: floatQuote 8s ease-in-out infinite;
+            animation: floatQuote 8s ease-in-out infinite, moveHorizontally 8s ease-in-out infinite;
             opacity: 0.7;
         }
 
@@ -153,6 +129,12 @@
             0% { transform: translateY(0); opacity: 1; }
             50% { transform: translateY(-300px); opacity: 0.8; }
             100% { transform: translateY(0); opacity: 0.6; }
+        }
+
+        @keyframes moveHorizontally {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(200px); }
+            100% { transform: translateX(0); }
         }
     </style>
 </head>
@@ -235,6 +217,7 @@
             ];
 
             const quoteCount = 12;  // Number of quotes
+            const colors = ['#ff69b4', '#00bfff', '#32cd32', '#ff4500', '#ffa500', '#9400d3', '#ff1493', '#00fa9a'];  // Color options
 
             for (let i = 0; i < quoteCount; i++) {
                 createFloatingQuote(quotes[i]);
@@ -244,6 +227,10 @@
                 const floatingQuote = document.createElement('div');
                 floatingQuote.className = 'floating-quote';
                 floatingQuote.innerText = quote;
+
+                // Assign random color
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                floatingQuote.style.color = randomColor;
 
                 // Random positions on the screen
                 floatingQuote.style.left = Math.random() * window.innerWidth + 'px';
