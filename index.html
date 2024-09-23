@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Akanksha!!!!!</title>
+    <title>Happy Birthday Akanksha</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -97,31 +97,69 @@
             background: transparent;
             overflow: hidden;
         }
-        .explosion {
-            width: 30px;
-            height: 30px;
-            background-color: yellow;
+
+        /* Floating stars */
+        .star {
             position: absolute;
-            border-radius: 50%;
-            animation: explode 0.8s linear;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid red;
+            transform: rotate(35deg);
+            animation: floatStar 5s linear infinite;
+            z-index: 1;
         }
-        @keyframes explode {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(3); opacity: 0.8; }
-            100% { transform: scale(5); opacity: 0; }
+
+        .star::before, .star::after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid red;
         }
-        .explosion:nth-child(odd) {
-            background-color: red;
+
+        .star::before {
+            transform: rotate(-70deg);
+            top: -15px;
+            left: -10px;
         }
-        .explosion:nth-child(even) {
-            background-color: blue;
+
+        .star::after {
+            transform: rotate(-140deg);
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes floatStar {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-200px); opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 0.6; }
+        }
+
+        /* Floating quotes */
+        .floating-quote {
+            position: absolute;
+            font-size: 1.2rem;
+            color: #ff69b4;
+            font-weight: bold;
+            animation: floatQuote 8s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatQuote {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-300px); opacity: 0.8; }
+            100% { transform: translateY(0); opacity: 0.6; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Happy Birthday Akanksha!!!!!!!</h1>
-        <p>I LOVE YOU THE MOST!!!!!!</p>
+        <h1>Happy Birthday Akanksha</h1>
+        <p>I LOVE YOU THE MOST!</p>
         <div class="image-container">
             <img src="us.jpg" alt="Akanksha and Me">
         </div>
@@ -146,7 +184,7 @@
 
             function createFloatingVideo() {
                 const video = document.createElement('video');
-                video.src = '/mnt/data/Happy Birthday.mp4';  // Ensure this path points to the correct location of the video
+                video.src = '/mnt/data/Happy Birthday.mp4';  // Update the path if necessary
                 video.className = 'floating-video';
                 video.autoplay = true;
                 video.loop = true;
@@ -160,25 +198,59 @@
                 document.body.appendChild(video);
             }
 
-            // Cracker explosion
-            setInterval(createExplosion, 1500);
+            // Cracker explosion: creating multiple floating stars
+            const starCount = 30;  // Create 30 stars
 
-            function createExplosion() {
+            for (let i = 0; i < starCount; i++) {
+                createFloatingStar();
+            }
+
+            function createFloatingStar() {
                 const cracker = document.getElementById('cracker');
-                const explosion = document.createElement('div');
-                explosion.className = 'explosion';
+                const star = document.createElement('div');
+                star.className = 'star';
 
                 // Random positions on the screen
-                explosion.style.left = Math.random() * window.innerWidth + 'px';
-                explosion.style.top = Math.random() * window.innerHeight + 'px';
+                star.style.left = Math.random() * window.innerWidth + 'px';
+                star.style.top = Math.random() * window.innerHeight + 'px';
 
-                // Add the explosion to the cracker div
-                cracker.appendChild(explosion);
+                // Add the star to the cracker div
+                cracker.appendChild(star);
+            }
 
-                // Remove the explosion after the animation
-                setTimeout(() => {
-                    cracker.removeChild(explosion);
-                }, 800);
+            // Floating quotes: Create lovely birthday quotes
+            const quotes = [
+                "Happy Birthday, my sweet Boba!",
+                "You light up my life, Boba!",
+                "To the love of my life, Akanksha, happy birthday!",
+                "You're my sunshine on a rainy day, Boba!",
+                "May all your dreams come true, my love!",
+                "Happy Birthday to the one who makes my heart sing!",
+                "You're my everything, Boba, Happy Birthday!",
+                "Wishing you a day filled with love and laughter!",
+                "My love for you grows stronger each day, Happy Birthday Boba!",
+                "You're the best thing that ever happened to me!",
+                "Today is all about you, my lovely Boba!",
+                "Cheers to the most beautiful soul, Akanksha!"
+            ];
+
+            const quoteCount = 12;  // Number of quotes
+
+            for (let i = 0; i < quoteCount; i++) {
+                createFloatingQuote(quotes[i]);
+            }
+
+            function createFloatingQuote(quote) {
+                const floatingQuote = document.createElement('div');
+                floatingQuote.className = 'floating-quote';
+                floatingQuote.innerText = quote;
+
+                // Random positions on the screen
+                floatingQuote.style.left = Math.random() * window.innerWidth + 'px';
+                floatingQuote.style.top = Math.random() * window.innerHeight + 'px';
+
+                // Append the quote to the body
+                document.body.appendChild(floatingQuote);
             }
         });
     </script>
