@@ -14,6 +14,7 @@
             background-color: #f5f7fa;
             margin: 0;
             overflow: hidden;
+            position: relative;
         }
         .container {
             text-align: center;
@@ -28,9 +29,6 @@
             color: #333;
             font-size: 1.5rem;
         }
-        .image-container {
-            margin-top: 20px;
-        }
         img {
             width: 300px;
             height: auto;
@@ -38,20 +36,37 @@
             border: 5px solid #ff69b4;
         }
 
-        /* Floating images */
-        .floating-image {
+        /* Floating animations */
+        .floating-image, .floating-video {
             position: absolute;
             width: 100px; /* Adjust size as needed */
             height: auto;
             opacity: 0.5; /* Watermark effect */
             border-radius: 10px;
-            animation: float 10s ease-in-out infinite, randomMove 8s ease-in-out infinite;
+            animation: float 10s ease-in-out infinite;
         }
 
-        /* Other animations (unchanged) */
-        /* Video float animation, balloons, fireworks/crackers, etc. */
-        /* ... (same as your original code) ... */
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(10px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
 
+        .floating-quote {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: bold;
+            opacity: 0.7;
+            animation: floatRandom 8s ease-in-out infinite;
+        }
+
+        @keyframes floatRandom {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, -50px); }
+            50% { transform: translate(-50px, 50px); }
+            75% { transform: translate(75px, -75px); }
+            100% { transform: translate(0, 0); }
+        }
     </style>
 </head>
 <body>
@@ -63,17 +78,8 @@
         </div>
     </div>
 
-    <!-- Balloons -->
-    <div class="balloon" style="left: 10%; background-color: #ff4500;"></div>
-    <div class="balloon" style="left: 50%; background-color: #00bfff;"></div>
-    <div class="balloon" style="left: 80%; background-color: #32cd32;"></div>
-
-    <!-- Cracker Explosion -->
-    <div id="cracker"></div>
-
     <!-- Floating videos -->
     <script>
-        // Create floating video elements
         document.addEventListener('DOMContentLoaded', function() {
             const videoCount = 30;
             for (let i = 0; i < videoCount; i++) {
@@ -82,17 +88,15 @@
 
             function createFloatingVideo() {
                 const video = document.createElement('video');
-                video.src = '/mnt/data/Happy Birthday.mp4';  // Update the path if necessary
+                video.src = 'Happy Birthday.mp4'; // Update the path if necessary
                 video.className = 'floating-video';
                 video.autoplay = true;
                 video.loop = true;
                 video.muted = true;
 
-                // Set random position for each video
                 video.style.left = Math.random() * window.innerWidth + 'px';
                 video.style.top = Math.random() * window.innerHeight + 'px';
 
-                // Append the video to the body
                 document.body.appendChild(video);
             }
 
@@ -104,37 +108,16 @@
 
             function createFloatingImage(src) {
                 const img = document.createElement('img');
-                img.src = src; // Update the path as necessary
+                img.src = src; // Ensure the path is correct
                 img.className = 'floating-image';
 
-                // Set random position for each image
                 img.style.left = Math.random() * window.innerWidth + 'px';
                 img.style.top = Math.random() * window.innerHeight + 'px';
 
-                // Append the image to the body
                 document.body.appendChild(img);
             }
 
-            // Cracker explosion: creating multiple floating stars
-            const starCount = 30;  // Create 30 stars
-            for (let i = 0; i < starCount; i++) {
-                createFloatingStar();
-            }
-
-            function createFloatingStar() {
-                const cracker = document.getElementById('cracker');
-                const star = document.createElement('div');
-                star.className = 'star';
-
-                // Random positions on the screen
-                star.style.left = Math.random() * window.innerWidth + 'px';
-                star.style.top = Math.random() * window.innerHeight + 'px';
-
-                // Add the star to the cracker div
-                cracker.appendChild(star);
-            }
-
-            // Floating quotes: Create lovely birthday quotes
+            // Floating quotes
             const quotes = [
                 "Happy Birthday, my sweet Boba!",
                 "You light up my life, Boba!",
@@ -143,34 +126,26 @@
                 "May all your dreams come true, my love!",
                 "Happy Birthday to the one who makes my heart sing!",
                 "You're my everything, Boba, Happy Birthday!",
-                "Wishing you a day filled with love and laughter!",
-                "My love for you grows stronger each day, Happy Birthday Boba!",
-                "You're the best thing that ever happened to me!",
-                "Today is all about you, my lovely Boba!",
-                "Cheers to the most beautiful soul, Akanksha!"
+                "Wishing you a day filled with love and laughter!"
             ];
 
-            const quoteCount = 12;  // Number of quotes
-            const colors = ['#ff69b4', '#00bfff', '#32cd32', '#ff4500', '#ffa500', '#9400d3', '#ff1493', '#00fa9a'];  // Color options
+            const colors = ['#ff69b4', '#00bfff', '#32cd32', '#ff4500', '#ffa500'];
 
-            for (let i = 0; i < quoteCount; i++) {
-                createFloatingQuote(quotes[i]);
-            }
+            quotes.forEach((quote) => {
+                createFloatingQuote(quote);
+            });
 
             function createFloatingQuote(quote) {
                 const floatingQuote = document.createElement('div');
                 floatingQuote.className = 'floating-quote';
                 floatingQuote.innerText = quote;
 
-                // Assign random color
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 floatingQuote.style.color = randomColor;
 
-                // Random positions on the screen
                 floatingQuote.style.left = Math.random() * window.innerWidth + 'px';
                 floatingQuote.style.top = Math.random() * window.innerHeight + 'px';
 
-                // Append the quote to the body
                 document.body.appendChild(floatingQuote);
             }
         });
